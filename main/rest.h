@@ -16,15 +16,19 @@ boolean connect_to_site(WiFiClient *client)
   return true;
 }
 
-void makeRequest(WiFiClient *client, String url)
+void makeRequest(WiFiClient *client, String url, String body)
 {
-  Serial.print("Requesting URL: ");
-  Serial.println(url);
+  int contentLen = body.length() + 2;
+  String request = String("POST ") + url + " HTTP/1.1\r\n" +
+               "Host: " + host + ":3000\r\n" +
+               "Content-Length: " + String(contentLen) + "\r\n" +
+               "Content-Type: application/json\r\n\r\n" +
+               "{" + body + "}\r\n";
+               
+  Serial.println("Request:");
+  Serial.println(request);
   
-  client->print(String("POST ") + url + " HTTP/1.1\r\n" +
-               "Content-Type: application/json\r\n" +
-               "Host: " + host + "\r\n\r\n" +
-               "{\"rfid\": \"i3475t324\"}\r\n");
+  client->print(request);
 
   // Just making sure there is a response. we don't have to do it for now since we don't use it
   unsigned long timeout = millis();
@@ -37,14 +41,14 @@ void makeRequest(WiFiClient *client, String url)
   }
 }
 
-void sendRfid(char rfid[]) {
+void sendRfid(char rfid[], int playerPos) {
   WiFiClient client;
 
   if (!connect_to_site(&client)) {
     return;
   }
 
-  makeRequest(&client, "/rfid");
+  makeRequest(&client, "/rfid", "\"rfid\": \"" + String(rfid) + "\", \"position\": " + String(playerPos));
 
   client.stop();
 }

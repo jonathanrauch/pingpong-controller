@@ -2,7 +2,11 @@
 #include "rest.h"
 #include <ESP8266WiFi.h>
 
+#define PLAYER_ONE 0
+#define PLAYER_TWO 1
+
 // Globals
+int playerPos = PLAYER_ONE;
 int RFIDResetPin = 13;
 int state = LOW;
 boolean player = false;
@@ -52,7 +56,7 @@ void loop() {
 
   if (strlen(tagString) > 0){
     Serial.println(tagString);
-    sendRfid(tagString);
+    sendRfid(tagString, playerPos);
   }
 
   clearTag();
