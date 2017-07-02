@@ -1,8 +1,31 @@
+#include "wifi.h"
+#include <ESP8266WiFi.h>
+#include <WiFiClient.h>
+
+// Globals
 int RFIDResetPin = 13;
-int state;
+int state = LOW;
 boolean player = false;
 
-void setup(){
+// Web
+const int httpPort = 3000;
+const char *host = "10.0.0.176";
+
+void wifi_connect() 
+{
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("");
+  Serial.println("WiFi connected");
+
+  // Print the IP address
+  Serial.println(WiFi.localIP());  
+}
+
+void setup() {
   Serial.begin(9600);
 
   pinMode(RFIDResetPin, OUTPUT);
@@ -11,7 +34,7 @@ void setup(){
   pinMode(4, INPUT);
   pinMode(5, OUTPUT);
 
-  state = LOW;
+  wifi_connect();
 }
 
 char tagString[13];
