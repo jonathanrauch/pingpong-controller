@@ -41,15 +41,22 @@ void makeRequest(WiFiClient *client, String url, String body)
   }
 }
 
-void sendRfid(char rfid[], int playerPos) {
+void genericCall(String url, String body) {
   WiFiClient client;
 
   if (!connect_to_site(&client)) {
     return;
   }
 
-  makeRequest(&client, "/rfid", "\"rfid\": \"" + String(rfid) + "\", \"position\": " + String(playerPos));
+  makeRequest(&client, url, body);
 
   client.stop();
 }
 
+void sendRfid(char rfid[], int playerPos) {
+  genericCall("/rfid", "\"rfid\": \"" + String(rfid) + "\", \"position\": " + String(playerPos));
+}
+
+void sendScore(char rfid[], int playerPos) {
+  genericCall("/score", "\"position\": " + String(playerPos));
+}
