@@ -1,15 +1,11 @@
 #include "wifi.h"
+#include "rest.h"
 #include <ESP8266WiFi.h>
-#include <WiFiClient.h>
 
 // Globals
 int RFIDResetPin = 13;
 int state = LOW;
 boolean player = false;
-
-// Web
-const int httpPort = 3000;
-const char *host = "10.0.0.176";
 
 void wifi_connect() 
 {
@@ -53,8 +49,11 @@ void loop() {
   if (strlen(tagString) > 0) {
     tone(12, 2637, 150);
   }
-  
-  Serial.println(tagString);
+
+  if (strlen(tagString) > 0){
+    Serial.println(tagString);
+    sendRfid(tagString);
+  }
 
   clearTag();
 }
