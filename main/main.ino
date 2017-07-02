@@ -6,10 +6,9 @@
 #define PLAYER_TWO 1
 
 // Globals
-int playerPos = PLAYER_ONE;
+int playerPos = PLAYER_TWO;
 int RFIDResetPin = 13;
 int state = LOW;
-boolean player = false;
 
 void wifi_connect() 
 {
@@ -69,7 +68,7 @@ void internalLoop() {
   if (state != newState) {
     state = newState;
     if (newState == HIGH) {
-      if (player) {
+      if (playerPos == PLAYER_ONE) {
         tone(12, 587, 250);
         delay(250);
         tone(12, 880, 500);
@@ -80,7 +79,8 @@ void internalLoop() {
         tone(12, 988, 500);
         delay(500);
       }
-      player = !player;
+
+      sendScore(playerPos);
     }    
   }
 }

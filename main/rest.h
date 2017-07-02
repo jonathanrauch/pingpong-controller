@@ -57,6 +57,6 @@ void sendRfid(char rfid[], int playerPos) {
   genericCall("/rfid", "\"rfid\": \"" + String(rfid) + "\", \"position\": " + String(playerPos));
 }
 
-void sendScore(char rfid[], int playerPos) {
+void sendScore(int playerPos) {
   genericCall("/score", "\"position\": " + String(playerPos));
 }
