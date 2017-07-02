@@ -27,6 +27,10 @@ void loop() {
   
   readTag();
 
+  if (strlen(tagString) > 0) {
+    tone(12, 2637, 150);
+  }
+  
   Serial.println(tagString);
 
   clearTag();
