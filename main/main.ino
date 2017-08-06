@@ -1,3 +1,26 @@
+/**
+ * Pin Layout:
+ * Speaker:
+ * one pin - pin12
+ * other pin - GND
+ * 
+ * Touch sensor:
+ * GND - GND
+ * out - pin4
+ * VDD - 3v3
+ * 
+ * RFID ID-12LA reader (from bottom to top, when text is facing you)
+ * Left side:
+ * VCC - 3v3
+ * D0 - Serial RX
+ * FORM - GND
+ * 
+ * Right side:
+ * GND - GND
+ * RES - pin13
+ * 
+ */
+
 #include "wifi.h"
 #include "rest.h"
 #include <ESP8266WiFi.h>
