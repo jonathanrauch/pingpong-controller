@@ -28,9 +28,13 @@
 #define PLAYER_ONE 0
 #define PLAYER_TWO 1
 
+// Consts
+const int playerPos = PLAYER_TWO;
+const int RFIDResetPin = 13;
+const int touchInpuPin = 4;
+const int speakerOutputPin = 12;
+
 // Globals
-int playerPos = PLAYER_TWO;
-int RFIDResetPin = 13;
 int state = LOW;
 
 void wifi_connect() 
@@ -53,7 +57,7 @@ void setup() {
   pinMode(RFIDResetPin, OUTPUT);
   digitalWrite(RFIDResetPin, HIGH);
 
-  pinMode(4, INPUT);
+  pinMode(touchInpuPin, INPUT);
 
   wifi_connect();
 }
@@ -72,7 +76,7 @@ void loop() {
   readTag();
 
   if (strlen(tagString) > 0) {
-    tone(12, 2637, 150);
+    tone(speakerOutputPin, 2637, 150);
   }
 
   if (strlen(tagString) > 0){
@@ -84,20 +88,20 @@ void loop() {
 }
 
 void internalLoop() {
-  int newState = digitalRead(4);
+  int newState = digitalRead(touchInpuPin);
 
   if (state != newState) {
     state = newState;
     if (newState == HIGH) {
       if (playerPos == PLAYER_ONE) {
-        tone(12, 587, 250);
+        tone(speakerOutputPin, 587, 250);
         delay(250);
-        tone(12, 880, 500);
+        tone(speakerOutputPin, 880, 500);
         delay(500);
       } else {
-        tone(12, 659, 250);
+        tone(speakerOutputPin, 659, 250);
         delay(250);
-        tone(12, 988, 500);
+        tone(speakerOutputPin, 988, 500);
         delay(500);
       }
 
