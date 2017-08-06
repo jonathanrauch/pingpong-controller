@@ -54,7 +54,6 @@ void setup() {
   digitalWrite(RFIDResetPin, HIGH);
 
   pinMode(4, INPUT);
-  pinMode(5, OUTPUT);
 
   wifi_connect();
 }
@@ -86,7 +85,6 @@ void loop() {
 
 void internalLoop() {
   int newState = digitalRead(4);
-  digitalWrite(5, newState);
 
   if (state != newState) {
     state = newState;
